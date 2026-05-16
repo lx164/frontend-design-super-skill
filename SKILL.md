@@ -40,6 +40,7 @@ Choose the right framework for your project:
 
 ### Quick Commands
 
+**TypeScript Versions (Original):**
 ```bash
 # React + Vite (Pure Static)
 bash scripts/init-vite.sh my-react-site
@@ -53,6 +54,23 @@ bash scripts/init-vue-vite.sh my-vue-site
 # Nuxt 3 (SSR/SSG)
 bash scripts/init-nuxt.sh my-nuxt-site
 ```
+
+**JavaScript Versions (New - JavaScript Runtime Compatible):**
+```bash
+# React + Vite (Pure Static) - JavaScript
+bash scripts/init-vite-js.sh my-react-site
+
+# React + Next.js (Vercel Deploy) - JavaScript
+bash scripts/init-nextjs-js.sh my-next-site
+
+# Vue 3 + Vite (Pure Static) - JavaScript
+bash scripts/init-vue-vite-js.sh my-vue-site
+
+# Nuxt 3 (SSR/SSG) - JavaScript
+bash scripts/init-nuxt-js.sh my-nuxt-site
+```
+
+> **Note**: JavaScript versions provide full compatibility with pure JavaScript runtimes while maintaining all original functionality, design patterns, and user experience.
 
 ---
 

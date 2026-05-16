@@ -247,6 +247,6 @@ Built on the shoulders of:
 
 ---
 
-Made with 🎨 by [Kessler.io](https://kessler.io)
+Made with 🎨 by [lx164](https://github.com/lx164/frontend-design-super-skill)
 
 **Now supporting React · Vue 3 · Nuxt 3** — One skill, any framework.
