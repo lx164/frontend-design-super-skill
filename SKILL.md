@@ -1,6 +1,6 @@
 ---
 name: frontend-design-ultimate
-description: Create distinctive, production-grade static sites with React, Tailwind CSS, and shadcn/ui — no mockups needed. Generates bold, memorable designs from plain text requirements with anti-AI-slop aesthetics, mobile-first responsive patterns, and single-file bundling. Use when building landing pages, marketing sites, portfolios, dashboards, or any static web UI. Supports both Vite (pure static) and Next.js (Vercel deploy) workflows.
+description: Create distinctive, production-grade static sites with React, Vue 3, Nuxt.js, Tailwind CSS, and shadcn/ui — no mockups needed. Generates bold, memorable designs from plain text requirements with anti-AI-slop aesthetics, mobile-first responsive patterns, and single-file bundling. Supports cross-framework development (React/Vue 3/Nuxt) with consistent design patterns. Use when building landing pages, marketing sites, portfolios, dashboards, or any static web UI.
 homepage: https://github.com/kesslerio/frontend-design-ultimate-clawhub-skill
 metadata:
   openclaw:
@@ -13,15 +13,45 @@ metadata:
 
 Create distinctive, production-grade static sites from text requirements alone. No mockups, no Figma — just describe what you want and get bold, memorable designs.
 
-**Stack**: React 18 + TypeScript + Tailwind CSS + shadcn/ui + Framer Motion  
-**Output**: Vite (static HTML) or Next.js (Vercel-ready)
+**Cross-Framework Support**: React 18 | Vue 3 | Nuxt 3  
+**Styling**: Tailwind CSS + shadcn/ui (or framework equivalents)  
+**Output**: Vite (static HTML) or Framework-specific deployment
 
 ## Quick Start
 
 ```
 "Build a SaaS landing page for an AI writing tool. Dark theme, 
-editorial typography, subtle grain texture. Pages: hero with 
+editorial typography, subtle grain texture. Use Vue 3. Pages: hero with 
 animated demo, features grid, pricing table, FAQ accordion, footer."
+```
+
+---
+
+## Framework Selection Guide
+
+Choose the right framework for your project:
+
+| Framework | Best For | Deployment | Learning Curve |
+|-----------|----------|------------|----------------|
+| **React + Vite** | SPAs, interactive apps, React ecosystem | Static/CDN | Medium |
+| **React + Next.js** | SEO-critical sites, SSR needed | Vercel/Node | Medium-High |
+| **Vue 3 + Vite** | Progressive apps, easier learning curve | Static/CDN | Low |
+| **Nuxt 3** | SEO-critical, full-stack Vue, SSR/SSG | Vercel/Netlify/Node | Low-Medium |
+
+### Quick Commands
+
+```bash
+# React + Vite (Pure Static)
+bash scripts/init-vite.sh my-react-site
+
+# React + Next.js (Vercel Deploy)
+bash scripts/init-nextjs.sh my-next-site
+
+# Vue 3 + Vite (Pure Static)
+bash scripts/init-vue-vite.sh my-vue-site
+
+# Nuxt 3 (SSR/SSG)
+bash scripts/init-nuxt.sh my-nuxt-site
 ```
 
 ---
@@ -56,7 +86,9 @@ What's the ONE thing someone will remember? A hero animation? Typography treatme
 
 ---
 
-## Aesthetics Guidelines
+## Aesthetics Guidelines (Framework-Agnostic)
+
+These principles apply to ALL frameworks:
 
 ### Typography — NEVER Generic
 
@@ -104,10 +136,12 @@ What's the ONE thing someone will remember? A hero animation? Typography treatme
 - Hover states that surprise (scale, color shift, shadow depth)
 - Smooth page transitions
 
-**Implementation**:
-- CSS-only for simple animations
-- Framer Motion for React (pre-installed via init scripts)
-- Keep durations 200-400ms (snappy, not sluggish)
+**Implementation by Framework**:
+- **React**: Framer Motion (`motion.div`, `AnimatePresence`)
+- **Vue 3**: @vueuse/motion (`v-motion`, `useMotion`)
+- **Nuxt 3**: @vueuse/motion (auto-imported) or @nuxt/animations
+
+**Keep durations 200-400ms** (snappy, not sluggish)
 
 ### Spatial Composition
 
@@ -146,7 +180,7 @@ What's the ONE thing someone will remember? A hero animation? Typography treatme
 
 ---
 
-## Mobile-First Patterns
+## Mobile-First Patterns (Framework-Agnostic)
 
 See **[references/mobile-patterns.md](references/mobile-patterns.md)** for detailed CSS.
 
@@ -185,9 +219,9 @@ See **[references/mobile-patterns.md](references/mobile-patterns.md)** for detai
 
 ---
 
-## Build Workflow
+## Framework-Specific Workflows
 
-### Option A: Vite (Pure Static)
+### Option A: React + Vite (Pure Static)
 
 ```bash
 # 1. Initialize
@@ -206,7 +240,30 @@ bash scripts/bundle-artifact.sh
 # Output: bundle.html
 ```
 
-### Option B: Next.js (Vercel Deploy)
+**Key Libraries**:
+- `framer-motion` for animations
+- `@radix-ui/react-*` for accessible components
+- `lucide-react` for icons
+
+**Component Pattern** (React):
+```tsx
+import { motion } from 'framer-motion'
+import { Button } from '@/components/ui/button'
+
+export function Hero() {
+  return (
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Button size="lg">Get Started</Button>
+    </motion.section>
+  )
+}
+```
+
+### Option B: React + Next.js (Vercel Deploy)
 
 ```bash
 # 1. Initialize
@@ -220,15 +277,125 @@ npm run dev
 vercel
 ```
 
+**Next.js-Specific Features**:
+- App Router (`app/` directory)
+- Server Components (use `'use client'` for interactive parts)
+- Image optimization (`next/image`)
+- Metadata API for SEO
+
+**Component Pattern** (Next.js):
+```tsx
+'use client'
+import { motion } from 'framer-motion'
+import { Button } from '@/components/ui/button'
+
+export default function Hero() {
+  return (
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Button size="lg">Get Started</Button>
+    </motion.section>
+  )
+}
+```
+
+### Option C: Vue 3 + Vite (Pure Static)
+
+```bash
+# 1. Initialize
+bash scripts/init-vue-vite.sh my-site
+cd my-site
+
+# 2. Develop
+npm run dev
+
+# 3. Build static files
+npm run build
+# Output: dist/
+```
+
+**Key Libraries**:
+- `@vueuse/motion` for animations
+- `radix-vue` for accessible components
+- `lucide-vue-next` for icons
+- `shadcn-vue` for UI components
+
+**Component Pattern** (Vue 3):
+```vue
+<script setup lang="ts">
+import { Motion } from '@vueuse/motion'
+import Button from '@/components/ui/Button.vue'
+</script>
+
+<template>
+  <section
+    v-motion
+    :initial="{ opacity: 0, y: 20 }"
+    :enter="{ opacity: 1, y: 0 }"
+    :duration="500"
+  >
+    <Button size="lg">Get Started</Button>
+  </section>
+</template>
+```
+
+### Option D: Nuxt 3 (SSR/SSG)
+
+```bash
+# 1. Initialize
+bash scripts/init-nuxt.sh my-site
+cd my-site
+
+# 2. Develop
+npm run dev
+
+# 3. Generate static site
+npm run generate
+# Output: .output/public/
+
+# 4. Deploy
+npx nuxi deploy
+```
+
+**Nuxt-Specific Features**:
+- File-based routing (`pages/`)
+- Auto-imports (components, composables, utils)
+- `@nuxt/ui` component library (UButton, UCard, etc.)
+- Built-in SEO with `useHead()` and `useSeoMeta()`
+
+**Component Pattern** (Nuxt 3):
+```vue
+<script setup lang="ts">
+import { siteConfig } from '~/config/site'
+
+useHead({
+  title: `${siteConfig.name} - ${siteConfig.tagline}`
+})
+</script>
+
+<template>
+  <section
+    v-motion
+    :initial="{ opacity: 0, y: 20 }"
+    :enter="{ opacity: 1, y: 0 }"
+  >
+    <UButton size="xl" :to="/signup">Get Started</UButton>
+  </section>
+</template>
+```
+
 ---
 
-## Project Structure
+## Project Structures
 
-### Vite Static
+### React + Vite
 ```
 my-site/
 ├── src/
-│   ├── components/     # React components
+│   ├── components/     # React components (.tsx)
 │   ├── lib/           # Utilities, cn()
 │   ├── styles/        # Global CSS
 │   ├── config/
@@ -240,7 +407,7 @@ my-site/
 └── package.json
 ```
 
-### Next.js
+### React + Next.js
 ```
 my-site/
 ├── app/
@@ -254,14 +421,50 @@ my-site/
 └── tailwind.config.ts
 ```
 
+### Vue 3 + Vite
+```
+my-site/
+├── src/
+│   ├── components/     # Vue components (.vue)
+│   │   └── ui/        # shadcn-vue components
+│   ├── lib/           # Utilities, cn()
+│   ├── assets/        # CSS, images
+│   ├── plugins/       # Vue plugins
+│   ├── config/
+│   │   └── site.ts    # Editable content config
+│   ├── App.vue
+│   └── main.ts
+├── index.html
+├── tailwind.config.ts
+└── package.json
+```
+
+### Nuxt 3
+```
+my-site/
+├── app.vue              # Root component
+├── pages/               # File-based routing
+│   └── index.vue
+├── layouts/             # Layout components
+│   └── default.vue
+├── components/          # Auto-imported components
+├── composables/         # Auto-imported composables
+├── config/              # Site configuration
+│   └── site.ts
+├── assets/css/          # Global CSS
+├── nuxt.config.ts
+├── tailwind.config.ts
+└── package.json
+```
+
 ---
 
-## Site Config Pattern
+## Site Config Pattern (Universal)
 
-Keep all editable content in one file:
+Keep all editable content in one file — works across all frameworks:
 
 ```typescript
-// config/site.ts
+// config/site.ts (or ~/config/site.ts for Nuxt)
 export const siteConfig = {
   name: "Acme AI",
   tagline: "Write better, faster",
@@ -298,18 +501,100 @@ export const siteConfig = {
 
 ---
 
+## Component Library Mapping
+
+Each framework has its own component library with similar APIs:
+
+| Component | React (shadcn/ui) | Vue 3 (shadcn-vue) | Nuxt 3 (@nuxt/ui) |
+|-----------|-------------------|---------------------|---------------------|
+| Button | `<Button>` | `<Button />` | `<UButton />` |
+| Card | `<Card>` | `<Card />` | `<UCard />` |
+| Badge | `<Badge>` | `<Badge />` | `<UBadge />` |
+| Accordion | `<Accordion>` | `<Accordion />` | `<UAccordion />` |
+| Dialog/Modal | `<Dialog>` | `<Dialog />` | `<UModal />` |
+| Navigation | `<NavigationMenu>` | `<NavigationMenu />` | `<UNavigationMenu />` |
+| Tabs | `<Tabs>` | `<Tabs />` | `<UTabs />` |
+| Sheet/Drawer | `<Sheet>` | `<Sheet />` | `<USheet />` |
+| Avatar | `<Avatar>` | `<Avatar />` | `<UAvatar />` |
+| Alert | `<Alert>` | `<Alert />` | `<UAlert />` |
+
+**Installation by Framework**:
+
+```bash
+# React
+npx shadcn@latest add button card badge accordion dialog navigation-menu tabs sheet separator avatar alert
+
+# Vue 3
+npx shadcn-vue@latest add button card badge accordion dialog navigation-menu tabs sheet separator avatar alert
+
+# Nuxt 3 (@nuxt/ui - auto-installed)
+# All U* components are available automatically
+```
+
+---
+
+## Animation Library Mapping
+
+| Feature | React (Framer Motion) | Vue 3 (@vueuse/motion) | Nuxt 3 (@vueuse/motion) |
+|---------|----------------------|------------------------|--------------------------|
+| Basic animation | `<motion.div>` | `v-motion` directive | `v-motion` directive |
+| Page transitions | `AnimatePresence` | `<Transition>` | `<Transition>` (built-in) |
+| Scroll triggers | `whileInView` | `useScroll` composable | `useScroll` composable |
+| Gestures | `whileHover`, `whileTap` | Event bindings | Event bindings |
+| Stagger children | `staggerChildren` | Config-based | Config-based |
+
+### Cross-Framework Animation Example
+
+**React**:
+```tsx
+<motion.div
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.5 }}
+>
+  Content
+</motion.div>
+```
+
+**Vue 3**:
+```vue
+<div
+  v-motion
+  :initial="{ opacity: 0, y: 20 }"
+  :enter="{ opacity: 1, y: 0 }"
+  :duration="500"
+>
+  Content
+</div>
+```
+
+**Nuxt 3**:
+```vue
+<div
+  v-motion
+  :initial="{ opacity: 0, y: 20 }"
+  :visible="{ opacity: 1, y: 0 }"
+  :duration="500"
+>
+  Content
+</div>
+```
+
+---
+
 ## Pre-Implementation Checklist
 
 Run this before finalizing any design:
 
-### Design Quality
+### Design Quality (Framework-Agnostic)
 - [ ] Typography is distinctive (no Inter/Roboto/Arial)
 - [ ] Color palette has clear dominant + accent (not evenly distributed)
 - [ ] Background has atmosphere (not solid white/gray)
 - [ ] At least one memorable/unforgettable element
 - [ ] Animations are orchestrated (not scattered)
 
-### Mobile Responsiveness
+### Mobile Responsiveness (Framework-Agnostic)
 - [ ] Hero centers on mobile (no empty grid space)
 - [ ] All grids collapse to single column
 - [ ] Forms stack vertically
@@ -329,22 +614,32 @@ Run this before finalizing any design:
 - [ ] Alt text for images
 - [ ] Keyboard navigation works
 
+### Framework-Specific
+- [ ] Using correct component imports for chosen framework
+- [ ] Animations use framework-appropriate library
+- [ ] Build configuration matches target framework
+- [ ] TypeScript types properly configured
+
 ---
 
-## shadcn/ui Components
+## Cross-Framework Consistency Guarantees
 
-10 common components pre-installed (button, badge, card, accordion, dialog, navigation-menu, tabs, sheet, separator, avatar, alert). Add more with `npx shadcn@latest add [name]` or install all with `npx shadcn@latest add --all`.
+This skill ensures consistency across frameworks:
 
-See **[references/shadcn-components.md](references/shadcn-components.md)** for full component reference.
+✅ **Design System**: Same color variables, typography scale, spacing tokens  
+✅ **Responsive Patterns**: Same mobile-first breakpoints and behaviors  
+✅ **Animation Timing**: Same durations (200-400ms), easing functions  
+✅ **Component APIs**: Similar props and event handling patterns  
+✅ **File Organization**: Logical structure adapted per framework conventions  
+✅ **Performance**: Optimized bundle sizes, lazy loading strategies  
 
-Most used for landing pages:
-- `Button`, `Badge` — CTAs and labels
-- `Card` — Feature cards, pricing tiers
-- `Accordion` — FAQ sections
-- `Dialog` — Modals, video players
-- `NavigationMenu` — Header nav
-- `Tabs` — Feature showcases
-- `Carousel` — Testimonials
+**What Adapts Per Framework**:
+- Syntax (JSX vs Template)
+- Import paths (@/ vs ~/ vs relative)
+- Component names (PascalCase vs kebab-case)
+- State management (useState vs ref/reactive)
+- Lifecycle hooks (useEffect vs onMounted/watch)
+- Routing (React Router vs Vue Router vs file-based)
 
 ---
 
@@ -352,28 +647,65 @@ Most used for landing pages:
 
 - **[references/design-philosophy.md](references/design-philosophy.md)** — Extended anti-AI-slop guidance
 - **[references/mobile-patterns.md](references/mobile-patterns.md)** — Detailed responsive CSS
-- **[references/shadcn-components.md](references/shadcn-components.md)** — Component quick reference
+- **[references/shadcn-components.md](references/shadcn-components.md)** — Component quick reference (React-focused)
 - **[templates/site-config.ts](templates/site-config.ts)** — Full siteConfig example
+- **Framework Guides**:
+  - React: See init-vite.sh and init-nextjs.sh output
+  - Vue 3: See init-vue-vite.sh output
+  - Nuxt 3: See init-nuxt.sh output
 
 ---
 
 ## Examples
 
-### Prompt → Output
+### Prompt → Multi-Framework Output
 
 **Input**:
 > "Portfolio site for a photographer. Minimal, editorial feel. 
 > Grid gallery with lightbox, about section, contact form."
 
-**Design Decisions**:
+**Design Decisions** (Same for all frameworks):
 - Tone: Editorial/Magazine
-- Typography: Cormorant Garamond (display) + Inter... wait, banned. Plus Jakarta Sans (body)
+- Typography: Cormorant Garamond (display) + Plus Jakarta Sans (body)
 - Color: Near-black bg (#0c0c0c), warm white text (#f5f5f0), copper accent (#b87333)
 - Unforgettable: Full-bleed hero image with text overlay that reveals on scroll
 - Motion: Gallery images fade in staggered on scroll
 
-**Output**: Complete Next.js project with responsive gallery, lightbox component, and contact form with validation.
+**Output Options**:
+- **React + Vite**: Complete Vite project with responsive gallery, lightbox component
+- **React + Next.js**: Next.js App Router with image optimization
+- **Vue 3 + Vite**: Vue 3 composition API with reactive gallery state
+- **Nuxt 3**: Nuxt 3 with auto-imports, SEO metadata, static generation
+
+All outputs maintain identical visual design and user experience.
 
 ---
 
-*Based on Anthropic's frontend-design, web-artifacts-builder, and community frontend-design-v2 skills.*
+## Migration Guide
+
+### Converting Between Frameworks
+
+**React → Vue 3**:
+- `useState` → `ref()` or `reactive()`
+- `useEffect` → `onMounted()` + `watch()`
+- JSX → Vue template syntax
+- `className` → `class`
+- `onClick` → `@click`
+- `{variable}` → `{{ variable }}`
+
+**Vue 3 → Nuxt 3**:
+- Move `src/` contents to root level
+- Replace `vue-router` with `pages/` directory
+- Replace manual imports with auto-imports
+- Add `~/` alias for root imports
+- Use `useHead()` instead of manual `<head>`
+
+**React → Nuxt 3**:
+- Convert JSX to Vue templates
+- Replace React hooks with Vue composition API
+- Move to file-based routing
+- Use Nuxt-specific modules (@nuxt/image, etc.)
+
+---
+
+*Based on Anthropic's frontend-design, web-artifacts-builder, and community frontend-design-v2 skills. Enhanced with cross-framework support for modern frontend development.*
